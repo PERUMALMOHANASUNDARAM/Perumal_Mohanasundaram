@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .seat
+        {
+            border: 1px solid gray;
+            width: 8vw;
+            height:3vw;
+            margin:1vw;
+        }
+        #tip
+        {
+            width:5vw;
+            height:2vw;
+            background-color: darkgreen;
+            color:white;
+            text-align: center;
+            position: absolute;
+            left:0px;
+            top: 0px;
+            display: none;
+        }
+        .seat div
+        {
+            border: 1px solid gray;
+            width: 1vw;
+            height: 1vw;
+            margin: 1vw;
+        }
+        .row
+        {
+            display: flex;
+        }
+        .seat:hover{
+            background-color: darkkhaki;
+        }
+        .seat:hover div
+        {
+            background-color: wheat;
+        }
+        #bus
+        {
+            background-color:ghostwhite;
+            border-radius: 1vw;
+            width: 70vw;
+            height: 19vw;
+            margin: auto;
+            border: 1px solid salmon;
+        }    
+    </style>
+    <script>
+        function makeselect(evt)
+        {
+            evt.target.style.backgroundColor="darkkhaki";
+            evt.target.children[0].style.backgroundColor="salmon";
+        }
+        function setevent()
+        {
+            for(var i=1;i<=15;i++)
+            {
+                document.getElementById("seat"+i).addEventListener("mouseenter",showtip);
+                document.getElementById("seat"+i).addEventListener("mouseleave",removetip);
+                document.getElementById("seat"+i).addEventListener("click",makeselect);
+                
+            }
+        }
+        function removetip(object)
+        {
+            document.getElementById("tip").style.display="none";
+        }
+        function showtip(evt)
+        {
+            var object=evt.target.id;
+            var num=object.replace("seat","");
+            document.getElementById("tip").style.display="block";
+            var xpos=evt.clientX;
+            var ypos=evt.clientY;
+            document.getElementById("tip").style.left=xpos+"px";
+            document.getElementById("tip").style.top=ypos+"px";
+            document.getElementById("tip").innerHTML=num;
+        }
+    </script>
+</head>
+<body onload="setevent()">
+    <div id="bus">
+        <div class="row">
+            <div class="seat" id="seat1">
+                <div></div>
+            </div>
+            <div  class="seat" id="seat3">
+                <div></div>
+            </div>
+            <div class="seat" id="seat5">
+                <div></div>
+            </div>
+            <div class="seat" id="seat7">
+                <div></div>
+            </div>
+            <div class="seat" id="seat9">
+                <div></div>
+            </div>
+            <div class="seat" id="seat11">
+                <div></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="seat" id="seat2">
+                <div></div>
+            </div>
+            <div class="seat" id="seat4">
+                <div></div>
+            </div>
+            <div class="seat" id="seat6">
+                <div></div>
+            </div>
+            <div class="seat" id="seat8">
+                <div></div>
+            </div>
+            <div class="seat" id="seat10">
+                <div></div>
+            </div>
+            <div class="seat" id="seat12">
+                <div></div>
+            </div>
+        </div>
+        <div style="margin:2vw;">
+
+        </div>
+        <div class="row">
+            <div class="seat" id="seat11">
+                <div></div>
+            </div>
+            <div class="seat" id="seat12">
+                <div></div>
+            </div>
+            <div class="seat" id="seat13">
+                <div></div>
+            </div>
+            <div class="seat" id="seat14">
+                <div></div>
+            </div>
+            <div class="seat" id="seat15">
+                <div></div>
+            </div>
+            <div class="seat" id="seat16">
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <div id="tip"></div>
+</body>
+</html>
