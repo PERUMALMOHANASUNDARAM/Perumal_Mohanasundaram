@@ -1,0 +1,101 @@
+import tkinter
+from tkinter import font
+import pymysql
+from tkinter import messagebox
+from tkinter import ttk
+
+
+
+wn=tkinter.Tk()
+wn.state('zoomed')
+wn.geometry('600x400')
+ft=font.Font(size=16,family='Arial')
+
+mycn=pymysql.connect(host='localhost',user='root',database='library')
+mc=mycn.cursor()
+
+
+cname=tkinter.StringVar()
+caddress=tkinter.StringVar()
+cmobile=tkinter.StringVar()
+cdeposit=tkinter.StringVar()
+cemail=tkinter.StringVar()
+
+
+def loadmembers():
+    sql='select * from members'
+    mc.execute(sql)
+    x=mc.fetchall()
+    for i in mg.get_children():
+        mg.delete(i)
+    for y in x:
+        mg.insert('',tkinter.END,values=(y[1],y[5],y[2],y[3],y[4]))
+        
+
+
+def showmember():
+    frm1.pack_forget()
+    frm2.pack()
+    loadmembers()
+
+
+def goback1():
+    frm2.pack_forget()
+    frm1.pack()
+
+
+def savemember():
+    sql="insert into members(membername,address,mobilenumber,emailid,cautiondeposit) values('{}','{}','{}','{}','{}')".format(
+        cname.get(),caddress.get(),cmobile.get(),cemail.get(),cdeposit.get())
+    mc.execute(sql)
+    mycn.commit()
+    messagebox.showinfo('Library','New Member Added....')
+    mg.insert('',tkinter.END,values=(cname.get(),caddress.get(),cmobile.get(),cemail.get(),cdeposit.get()))
+    cname.set('')
+    cmobile.set('')
+    caddress.set('')
+    cdeposit.set('')
+    cemail.set('')
+    
+    
+frm1=tkinter.Frame(wn)
+
+
+tkinter.Button(frm1,text='Members',font=ft,width=12,bg='orange',
+               command=showmember).grid(row=0,column=0,pady=10)
+tkinter.Button(frm1,text='Book Details',font=ft,width=12,bg='orange').grid(row=1,column=0,pady=10)
+tkinter.Button(frm1,text='Book Issue',font=ft,width=12,bg='orange').grid(row=2,column=0,pady=10)
+tkinter.Button(frm1,text='Book Return',font=ft,width=12,bg='orange').grid(row=3,column=0,pady=10)
+
+frm1.pack()
+
+
+
+frm2=tkinter.Frame(wn)
+
+tkinter.Label(frm2,text='Name of the member',font=ft).grid(row=0,column=0,pady=10)
+tkinter.Label(frm2,text='Address',font=ft).grid(row=1,column=0,pady=10)
+tkinter.Label(frm2,text='Mobile Number',font=ft).grid(row=2,column=0,pady=10)
+tkinter.Label(frm2,text='Email ID',font=ft).grid(row=3,column=0,pady=10)
+tkinter.Label(frm2,text='Caution Deposit',font=ft).grid(row=4,column=0,pady=10)
+
+
+tkinter.Entry(frm2,textvariable=cname,font=ft).grid(row=0,column=1)
+tkinter.Entry(frm2,textvariable=caddress,font=ft).grid(row=1,column=1)
+tkinter.Entry(frm2,textvariable=cmobile,font=ft).grid(row=2,column=1)
+tkinter.Entry(frm2,textvariable=cemail,font=ft).grid(row=3,column=1)
+tkinter.Entry(frm2,textvariable=cdeposit,font=ft).grid(row=4,column=1)
+
+tkinter.Button(frm2,text='Save',font=ft,command=savemember).grid(row=5,column=1,pady=10)
+tkinter.Button(frm2,text='Back',font=ft,command=goback1).grid(row=5,column=2,pady=10)
+
+mg=ttk.Treeview(frm2,columns=('cname','cadd','cmobile','cemail','cdeposit'),show='headings')
+mg.heading('cname',text='Name of the Member')
+mg.heading('cadd',text='Address')
+mg.heading('cmobile',text='Mobile Number')
+mg.heading('cemail',text='EMail ID')
+mg.heading('cdeposit',text='Caution Deposit')
+
+mg.grid(row=6,column=0,columnspan=5)
+
+wn.mainloop()
